@@ -1,27 +1,19 @@
-"""
-Simple Insurance Timeline Agent
-"""
 from langchain_openai import ChatOpenAI
-from langchain_core.runnables import RunnableLambda
-from src.timeline_tool import create_timeline_tool
+from langchain.agents import create_react_agent, AgentExecutor
+from src.timeline_tool import get_timeline_tools
+from src.prompts import create_agent_prompt
 
-class InsuranceTimelineAgent:
-    """Simple insurance timeline agent"""
-    
-    def __init__(self, use_refine: bool = False, model_name: str = "gpt-4o-mini", temperature: float = 0.0):
-        """Initialize the agent"""
-        self.llm = ChatOpenAI(model=model_name, temperature=temperature)
-        self.tool = create_timeline_tool(use_refine=use_refine, model_name=model_name, temperature=temperature)
-        self.processor = RunnableLambda(self._process_text)
-    
-    def _process_text(self, text: str) -> str:
-        """Process text through the timeline tool"""
-        return self.tool(text)
-    
-    def process(self, text: str) -> str:
-        """Process insurance text to generate timeline"""
-        return self.processor.invoke(text)
+def create_agent(use_refine: bool = False, model_name: str = "gpt-4o-mini", temperature: float = 0.0) -> AgentExecutor:
+    llm = ChatOpenAI(model=model_name, temperature=temperature)
+    tools = get_timeline_tools(use_refine=use_refine)
 
-def create_agent(use_refine: bool = False, model_name: str = "gpt-4o-mini", temperature: float = 0.0) -> InsuranceTimelineAgent:
-    """Create and return an insurance timeline agent"""
-    return InsuranceTimelineAgent(use_refine=use_refine, model_name=model_name, temperature=temperature)
+    agent = create_react_agent(llm=llm, tools=tools, prompt=create_agent_prompt())
+    
+    return AgentExecutor(agent=agent, tools=tools, verbose=False, handle_parsing_errors=True)
+
+def process_text(text: str, use_refine: bool = False) -> str:
+    agent_executor = create_agent(use_refine=use_refine)
+    query = f"Create a chronological timeline from this insurance text: {text}"
+    result = agent_executor.invoke({"input": query})
+    
+    return result["output"]

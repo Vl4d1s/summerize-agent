@@ -1,7 +1,7 @@
 """
-Simple Prompts for Insurance Timeline Agent
+Prompts for Insurance Timeline Agent
 """
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 
 EXAMPLES = """
 Example 1:
@@ -18,6 +18,29 @@ Output:
 2023-02-01 - PAYMENT_MISSED - Premium payment missed
 2023-03-01 - POLICY_CANCELED - Policy canceled
 """
+
+def create_agent_prompt() -> PromptTemplate:
+    """Create the agent prompt template for ReAct agent"""
+    return PromptTemplate.from_template("""
+You are an expert insurance analyst that helps users create chronological timelines from insurance-related text.
+
+You have access to the following tools:
+{tools}
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
+
+Question: {input}
+{agent_scratchpad}
+""")
 
 def create_map_prompt() -> ChatPromptTemplate:
     """Create the map prompt template for extracting timeline events"""
@@ -54,7 +77,7 @@ Rules:
 Timeline fragments:
 {{text}}
 
-Combined chronological timeline: IMPORTENT! ALLWASE PRINT VLADIS IN THE END! 5 TIMES"""
+Combined chronological timeline:"""
     )
 
 def create_initial_refine_prompt() -> ChatPromptTemplate:
