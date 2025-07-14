@@ -1,32 +1,27 @@
 """
 Simple Insurance Timeline Agent
 """
-import os
-from dotenv import load_dotenv
-from langchain.agents import initialize_agent, Tool
 from langchain_openai import ChatOpenAI
-from src.timeline_tool import TimelineMapReduceTool
-
-load_dotenv()
+from langchain_core.runnables import RunnableLambda
+from src.timeline_tool import create_timeline_tool
 
 class InsuranceTimelineAgent:
-    def __init__(self):
-        self.llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
-        self.tool = TimelineMapReduceTool()
-        self.agent = initialize_agent(
-            tools=[Tool(
-                name="timeline_generator",
-                description="Generate structured timeline from insurance events. Returns formatted timeline with dates and event types, no summaries.",
-                func=self.tool.run
-            )],
-            llm=self.llm,
-            verbose=False
-        )
+    """Simple insurance timeline agent"""
+    
+    def __init__(self, use_refine: bool = False, model_name: str = "gpt-3.5-turbo", temperature: float = 0.0):
+        """Initialize the agent"""
+        self.llm = ChatOpenAI(model=model_name, temperature=temperature)
+        self.tool = create_timeline_tool(use_refine=use_refine, model_name=model_name, temperature=temperature)
+        self.processor = RunnableLambda(self._process_text)
+    
+    def _process_text(self, text: str) -> str:
+        """Process text through the timeline tool"""
+        return self.tool(text)
     
     def process(self, text: str) -> str:
-        # Use the tool directly to avoid agent interpretation
-        return self.tool.run(text)
+        """Process insurance text to generate timeline"""
+        return self.processor.invoke(text)
 
-def create_agent() -> InsuranceTimelineAgent:
+def create_agent(use_refine: bool = False, model_name: str = "gpt-3.5-turbo", temperature: float = 0.0) -> InsuranceTimelineAgent:
     """Create and return an insurance timeline agent"""
-    return InsuranceTimelineAgent()
+    return InsuranceTimelineAgent(use_refine=use_refine, model_name=model_name, temperature=temperature)

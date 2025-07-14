@@ -1,37 +1,72 @@
 """
-Simple MapReduce Timeline Tool
+Timeline Tools using Proper Map-Reduce and Refine Patterns
 """
-from langchain.chains.combine_documents.map_reduce import MapReduceDocumentsChain
-from langchain.chains.llm import LLMChain
-from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain_openai import ChatOpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from src.prompts import MAP_PROMPT, REDUCE_PROMPT
+from langchain_core.output_parsers import StrOutputParser
+from src.prompts import create_map_prompt, create_reduce_prompt
 
-class TimelineMapReduceTool:
-    def __init__(self):
-        self.llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
-        self.splitter = RecursiveCharacterTextSplitter(chunk_size=1000)
-        
-    def run(self, text: str) -> str:
+def create_timeline_tool(use_refine: bool = False, model_name: str = "gpt-3.5-turbo", temperature: float = 0.0):
+    """Create timeline tool with proper pattern implementation"""
+    llm = ChatOpenAI(model=model_name, temperature=temperature)
+    output_parser = StrOutputParser()
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=1000, 
+        chunk_overlap=200,
+        separators=["\n\n", "\n", ".", "!", "?", ",", " ", ""]
+    )
+    
+    if use_refine:
+        return create_refine_tool(llm, output_parser, splitter)
+    else:
+        return create_mapreduce_tool(llm, output_parser, splitter)
+
+def create_mapreduce_tool(llm, output_parser, splitter):
+    """Create proper map-reduce tool"""
+    map_chain = create_map_prompt() | llm | output_parser
+    reduce_chain = create_reduce_prompt() | llm | output_parser
+    
+    def process_text(text: str) -> str:
+        """Process text using proper map-reduce pattern"""
         # Split text into documents
-        docs = self.splitter.create_documents([text])
+        docs = splitter.create_documents([text])
         
-        # Create map chain
-        map_chain = LLMChain(llm=self.llm, prompt=MAP_PROMPT)
+        # Map step: process each document chunk
+        map_results = []
+        for doc in docs:
+            result = map_chain.invoke({"text": doc.page_content})
+            map_results.append(result)
         
-        # Create reduce chain
-        reduce_chain = LLMChain(llm=self.llm, prompt=REDUCE_PROMPT)
-        reduce_documents_chain = StuffDocumentsChain(
-            llm_chain=reduce_chain,
-            document_variable_name="text"
-        )
+        # Reduce step: combine all map results
+        combined_text = "\n".join(map_results)
+        final_result = reduce_chain.invoke({"text": combined_text})
         
-        # Create map-reduce chain
-        mapreduce_chain = MapReduceDocumentsChain(
-            llm_chain=map_chain,
-            reduce_documents_chain=reduce_documents_chain,
-            document_variable_name="text"
-        )
+        return final_result.strip()
+    
+    return process_text
+
+def create_refine_tool(llm, output_parser, splitter):
+    """Create proper refine tool"""
+    from src.prompts import create_initial_refine_prompt, create_refine_prompt
+    
+    initial_chain = create_initial_refine_prompt() | llm | output_parser
+    refine_chain = create_refine_prompt() | llm | output_parser
+    
+    def process_text(text: str) -> str:
+        """Process text using proper refine pattern"""
+        # Split text into documents
+        docs = splitter.create_documents([text])
         
-        return mapreduce_chain.run(docs) 
+        # Initial step: process first document
+        current_result = initial_chain.invoke({"text": docs[0].page_content})
+        
+        # Refine step: iteratively refine with remaining documents
+        for doc in docs[1:]:
+            current_result = refine_chain.invoke({
+                "existing_timeline": current_result,
+                "new_text": doc.page_content
+            })
+        
+        return current_result.strip()
+    
+    return process_text 

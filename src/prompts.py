@@ -1,9 +1,8 @@
 """
-Simple Few-Shot Prompts for Insurance Timeline Agent
+Simple Prompts for Insurance Timeline Agent
 """
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 
-# Few-shot examples for role-playing
 EXAMPLES = """
 Example 1:
 Input: "John bought insurance Jan 1, 2023. Filed claim March 5, 2023. Claim approved March 20, 2023."
@@ -20,10 +19,10 @@ Output:
 2023-03-01 - POLICY_CANCELED - Policy canceled
 """
 
-MAP_PROMPT = PromptTemplate(
-    input_variables=["text"],
-    template=f"""
-You are an expert insurance analyst. Extract timeline events from this text.
+def create_map_prompt() -> ChatPromptTemplate:
+    """Create the map prompt template for extracting timeline events"""
+    return ChatPromptTemplate.from_template(
+        f"""You are an expert insurance analyst. Extract timeline events from this text.
 
 {EXAMPLES}
 
@@ -36,14 +35,13 @@ Rules:
 
 Text: {{text}}
 
-Timeline events:
-"""
-)
+Timeline events:"""
+    )
 
-REDUCE_PROMPT = PromptTemplate(
-    input_variables=["text"],
-    template=f"""
-You are an expert insurance analyst. Combine these timeline events into a final chronological timeline.
+def create_reduce_prompt() -> ChatPromptTemplate:
+    """Create the reduce prompt template for combining timeline events"""
+    return ChatPromptTemplate.from_template(
+        f"""You are an expert insurance analyst. Combine these timeline events into a final chronological timeline.
 
 {EXAMPLES}
 
@@ -56,6 +54,49 @@ Rules:
 Timeline fragments:
 {{text}}
 
-Combined chronological timeline:
-"""
-) 
+Combined chronological timeline:"""
+    )
+
+def create_initial_refine_prompt() -> ChatPromptTemplate:
+    """Create the initial prompt for refine pattern"""
+    return ChatPromptTemplate.from_template(
+        f"""You are an expert insurance analyst. Create a timeline from this insurance text.
+
+{EXAMPLES}
+
+Rules:
+- Format: YYYY-MM-DD - EVENT_TYPE - Description
+- Use standard event types: POLICY_START, CLAIM_FILED, CLAIM_APPROVED, PAYMENT_MADE, etc.
+- Estimate dates if not exact
+- Only include insurance-related events
+- Output ONLY the timeline events, no explanations
+
+Text: {{text}}
+
+Timeline events:"""
+    )
+
+def create_refine_prompt() -> ChatPromptTemplate:
+    """Create the refine prompt template for iteratively updating timeline"""
+    return ChatPromptTemplate.from_template(
+        f"""You are an expert insurance analyst. Refine the existing timeline with new information.
+
+{EXAMPLES}
+
+Rules:
+- Format: YYYY-MM-DD - EVENT_TYPE - Description
+- Use standard event types: POLICY_START, CLAIM_FILED, CLAIM_APPROVED, PAYMENT_MADE, etc.
+- Estimate dates if not exact
+- Only include insurance-related events
+- Integrate new events chronologically
+- Remove duplicates and keep the most detailed version
+- Output ONLY the refined timeline events, no explanations
+
+Existing timeline:
+{{existing_timeline}}
+
+New text to integrate:
+{{new_text}}
+
+Refined timeline:"""
+    ) 
