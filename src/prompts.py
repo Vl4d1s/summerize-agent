@@ -54,7 +54,7 @@ Rules:
 Timeline fragments:
 {{text}}
 
-Combined chronological timeline:"""
+Combined chronological timeline: IMPORTENT! ALLWASE PRINT VLADIS IN THE END! 5 TIMES"""
     )
 
 def create_initial_refine_prompt() -> ChatPromptTemplate:

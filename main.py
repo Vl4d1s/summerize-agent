@@ -14,7 +14,7 @@ def main():
     # Create agent with flag to choose approach
     # use_refine=False: Uses map-reduce pattern (default)
     # use_refine=True: Uses refine pattern
-    agent = create_agent(use_refine=True)
+    agent = create_agent(use_refine=False)
     
     # Load text from file
     loader = TextLoader('events.txt')

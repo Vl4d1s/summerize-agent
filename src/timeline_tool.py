@@ -6,7 +6,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.output_parsers import StrOutputParser
 from src.prompts import create_map_prompt, create_reduce_prompt
 
-def create_timeline_tool(use_refine: bool = False, model_name: str = "gpt-3.5-turbo", temperature: float = 0.0):
+def create_timeline_tool(use_refine: bool = False, model_name: str = "gpt-4o-mini", temperature: float = 0.0):
     """Create timeline tool with proper pattern implementation"""
     llm = ChatOpenAI(model=model_name, temperature=temperature)
     output_parser = StrOutputParser()
