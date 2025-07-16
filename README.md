@@ -21,10 +21,17 @@ A collection of simple and clean LangChain agents for insurance document process
 - **Interactive Mode**: Real-time question answering interface
 - **Chunk Processing**: Splits documents into 200-character chunks with 30-character overlap
 
+### Combined Agent
+
+- **Intelligent Tool Selection**: Automatically chooses between Timeline and QnA tools
+- **Context Understanding**: Recognizes timeline requests vs. specific questions
+- **Unified Interface**: Single agent that handles all types of queries
+- **Demo Mode**: Shows how the agent selects tools for different question types
+
 ### Common Features
 
 - **Simple API**: Clean functional interface with pattern selection
-- **Multiple Agents**: Choose between Timeline and QnA agents
+- **Multiple Agents**: Choose between Timeline, QnA, or Combined agents
 - **Verbose Logging**: Track processing steps with detailed prints
 
 ## Installation
@@ -47,11 +54,14 @@ OPENAI_API_KEY=your_api_key_here
 ### Command Line
 
 ```bash
-# Interactive agent selector (Timeline, QnA, or Both)
+# Interactive agent selector
 python main.py
 
 # Run QnA agent with interactive mode
 python qna_main.py
+
+# Run Combined agent with intelligent tool selection
+python combined_main.py
 ```
 
 ### Agent Options
@@ -63,9 +73,10 @@ When running `python main.py`, you'll see:
 ==================================================
 1. Timeline Agent - Creates chronological timelines
 2. QnA Agent - Answers questions using RAG
-3. Both agents
+3. Combined Agent - Intelligently chooses the right tool
+4. Run all agents separately
 ==================================================
-Select an agent (1/2/3):
+Select an agent (1/2/3/4):
 ```
 
 ### QnA Agent Features
@@ -87,6 +98,28 @@ The QnA agent includes:
 💡 Answer: The settlement check was $2,350 to cover the vehicle repairs.
 ```
 
+### Combined Agent Intelligence
+
+The Combined Agent automatically selects the right tool:
+
+```
+❓ Question: "Create a timeline of events"
+🧠 Agent chooses: Timeline Tool
+📅 Result: Chronological timeline generated
+
+❓ Question: "What was the claim number?"
+🧠 Agent chooses: QnA Tool
+💡 Result: CL-2023-0045
+
+❓ Question: "Show me a summary timeline"
+🧠 Agent chooses: Timeline Tool
+📅 Result: Organized timeline summary
+
+❓ Question: "When was the adjuster assigned?"
+🧠 Agent chooses: QnA Tool
+💡 Result: March 15, 2023
+```
+
 ## Architecture
 
 ### Timeline Agent Processing Patterns:
@@ -103,12 +136,21 @@ The QnA agent includes:
 5. **Query Processing**: Embeds user question and retrieves 3 most relevant chunks
 6. **Answer Generation**: Sends context and question to LLM for answer generation
 
+### Combined Agent Intelligence:
+
+The Combined Agent uses both pipelines seamlessly:
+
+- **Timeline Patterns**: For requests containing "timeline", "chronological", "summary", "events"
+- **QnA Pipeline**: For specific questions like "when", "what", "how much", "where"
+- **Automatic Detection**: ReAct pattern analyzes question intent and selects appropriate tool
+
 ### Agent Framework:
 
-- Uses LangChain's ReAct agent pattern for both agents
+- Uses LangChain's ReAct agent pattern for all agents
 - Powered by GPT-4o-mini for optimal performance
 - Tools are dynamically created based on selected agent type
 - Comprehensive logging for debugging and monitoring
+- Combined agent has access to both tool sets for intelligent selection
 
 ## Example Output
 
@@ -130,6 +172,7 @@ The QnA agent includes:
 summerize-agent/
 ├── main.py                 # Entry point with agent selection
 ├── qna_main.py            # QnA agent with interactive mode
+├── combined_main.py       # Combined agent with intelligent tool selection
 ├── events.txt             # Sample insurance text
 ├── requirements.txt       # Dependencies (includes RAG libraries)
 ├── chroma_db/             # Vector database (auto-created)
@@ -141,7 +184,8 @@ summerize-agent/
 
 ## Key Features
 
-- **Multi-Agent System**: Choose between Timeline and QnA agents based on your needs
+- **Multi-Agent System**: Choose between Timeline, QnA, or Combined agents
+- **Intelligent Tool Selection**: Combined agent automatically chooses the right tool for each question
 - **RAG Implementation**: Complete RAG pipeline with vector storage and retrieval
 - **Interactive Experience**: Real-time question answering with user-friendly interface
 - **Simple & Clean**: Minimal code using LangChain's proven patterns

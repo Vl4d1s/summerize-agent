@@ -46,6 +46,65 @@ def run_qna_agent():
     print(f"\n💡 Answer: {answer}")
 
 
+def run_combined_agent():
+    """Run the Combined Agent with both Timeline and QnA tools"""
+    print("🔄 Starting Combined Agent (Timeline + QnA)")
+    print("=" * 50)
+    
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
+    
+    # Combine both tool sets
+    timeline_tools = get_timeline_tools(use_refine=False)
+    qna_tools = get_qna_tools()
+    combined_tools = timeline_tools + qna_tools
+    
+    agent = create_react_agent(llm=llm, tools=combined_tools, prompt=create_agent_prompt())
+    agent_executor = AgentExecutor(agent=agent, tools=combined_tools, verbose=True, handle_parsing_errors=True)
+    
+    # Test with different types of questions
+    test_cases = [
+        "Create a chronological timeline from the insurance events",
+        "When was John's claim approved?",
+        "Generate a summary timeline of all events",
+        "What was the settlement amount for the accident?"
+    ]
+    
+    print("\n🧪 Testing Combined Agent with different question types:")
+    print("=" * 60)
+    
+    for i, question in enumerate(test_cases, 1):
+        print(f"\n📋 Test {i}: {question}")
+        print("-" * 50)
+        
+        result = agent_executor.invoke({"input": question})
+        answer = result["output"]
+        
+        print(f"\n💡 Result: {answer}")
+        print("=" * 60)
+    
+    print("\n✅ Combined Agent testing completed!")
+    
+    # Interactive mode
+    print("\n🎯 Interactive Mode - The agent will choose the right tool!")
+    print("Ask for timelines/summaries or specific questions")
+    print("Type 'quit' to exit")
+    print("-" * 50)
+    
+    while True:
+        user_question = input("\n❓ Your question: ").strip()
+        
+        if user_question.lower() in ['quit', 'exit', 'q']:
+            print("👋 Goodbye!")
+            break
+        
+        if user_question:
+            print("-" * 50)
+            result = agent_executor.invoke({"input": user_question})
+            answer = result["output"]
+            print(f"\n💡 Answer: {answer}")
+            print("-" * 50)
+
+
 def main():
     load_dotenv()
     
@@ -53,23 +112,28 @@ def main():
     print("=" * 50)
     print("1. Timeline Agent - Creates chronological timelines")
     print("2. QnA Agent - Answers questions using RAG")
-    print("3. Both agents")
+    print("3. Combined Agent - Intelligently chooses the right tool")
+    print("4. Run all agents separately")
     print("=" * 50)
     
-    choice = input("Select an agent (1/2/3): ").strip()
+    choice = input("Select an agent (1/2/3/4): ").strip()
     
     if choice == "1":
         run_timeline_agent()
     elif choice == "2":
         run_qna_agent()
     elif choice == "3":
-        print("\n📋 Running both agents:")
+        run_combined_agent()
+    elif choice == "4":
+        print("\n📋 Running all agents:")
         run_timeline_agent()
         print("\n" + "=" * 70 + "\n")
         run_qna_agent()
+        print("\n" + "=" * 70 + "\n")
+        run_combined_agent()
     else:
-        print("Invalid choice. Running Timeline Agent by default.")
-        run_timeline_agent()
+        print("Invalid choice. Running Combined Agent by default.")
+        run_combined_agent()
 
 
 if __name__ == "__main__":
