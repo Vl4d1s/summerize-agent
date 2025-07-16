@@ -1,0 +1,10 @@
+2023-01-15 - POLICY_START - Auto insurance policy purchased with $1,200 annual premium, comprehensive and collision coverage, $500 deductible
+2023-02-01 - PAYMENT_MADE - First monthly premium payment of $100 made
+2023-03-10 - INCIDENT_OCCURRED - Minor car accident occurred in parking lot
+2023-03-11 - INCIDENT_REPORTED - Accident reported to insurance company
+2023-03-12 - CLAIM_FILED - Claim officially filed with claim number CL-2023-0045
+2023-03-15 - ADJUSTER_ASSIGNED - Adjuster visited scene, took photos and interviewed witnesses
+2023-03-16 - INVESTIGATION_STARTED - Investigation began to determine fault and assess damages
+2023-04-02 - INVESTIGATION_COMPLETED - Investigation concluded, John determined not at fault
+2023-04-05 - CLAIM_APPROVED - Claim approved and settlement check for $2,350 issued for vehicle repairs
+2024-01-15 - POLICY_RENEWAL - Policy automatically renewed with premium increase to $1,250 annually due to previous claim
