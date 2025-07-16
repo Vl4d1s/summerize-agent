@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
 
 from dotenv import load_dotenv
-from langchain_community.document_loaders import TextLoader
-from src.agent import process_text
+from langchain_openai import ChatOpenAI
+from langchain.agents import create_react_agent, AgentExecutor
+from src.timeline_tool import get_timeline_tools
+from src.prompts import create_agent_prompt
+
 
 def main():
     load_dotenv()
     
-    loader = TextLoader('events.txt')
-    documents = loader.load()
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
+    tools = get_timeline_tools(use_refine=False)
+    agent = create_react_agent(llm=llm, tools=tools, prompt=create_agent_prompt())
+    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False, handle_parsing_errors=True)
+    result = agent_executor.invoke({"input": "Create a chronological timeline from the insurance events."})
+    timeline = result["output"]
 
-    text = documents[0].page_content
-    timeline = process_text(text, use_refine=False)
-    
     print("\nGenerated Timeline:")
     print("=" * 50)
     print(timeline)
