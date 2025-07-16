@@ -1,2 +1,6 @@
 ragas
 langchain-openai
+langchain-text-splitters
+langchain-community
+chromadb
+sentence-transformers

@@ -122,4 +122,24 @@ New text to integrate:
 {{new_text}}
 
 Refined timeline:"""
+    )
+
+def create_qna_prompt() -> ChatPromptTemplate:
+    """Create the QnA prompt template for answering questions using RAG"""
+    return ChatPromptTemplate.from_template("""
+You are an expert insurance analyst. Answer the question based on the provided context from insurance documents.
+
+Rules:
+- Base your answer ONLY on the information provided in the context
+- If the context doesn't contain enough information to answer the question, say "I don't have enough information in the provided context to answer this question."
+- Provide clear, concise answers
+- Include specific details from the context when relevant (dates, amounts, claim numbers, etc.)
+- Do not make assumptions or add information not present in the context
+
+Context:
+{context}
+
+Question: {question}
+
+Answer:"""
     ) 

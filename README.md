@@ -1,8 +1,10 @@
-# Insurance Timeline Agent
+# Insurance AI Agents
 
-A simple and clean LangChain agent that creates chronological timelines from insurance-related text using map-reduce or refine patterns.
+A collection of simple and clean LangChain agents for insurance document processing, including timeline generation and question-answering with RAG (Retrieval Augmented Generation).
 
 ## Features
+
+### Timeline Agent
 
 - **LangChain Agent Framework**: Uses ReAct pattern for intelligent reasoning
 - **Map-Reduce Pattern**: Processes text in chunks and combines results
@@ -10,17 +12,32 @@ A simple and clean LangChain agent that creates chronological timelines from ins
 - **Chronological Processing**: Automatically sorts events by date
 - **Event Type Classification**: Standardizes event types (POLICY_START, CLAIM_FILED, etc.)
 - **Date Estimation**: Handles approximate dates intelligently
+
+### QnA Agent
+
+- **RAG Pipeline**: Retrieval Augmented Generation for accurate question answering
+- **Vector Search**: Uses Chroma DB with OpenAI embeddings for semantic search
+- **Context-Aware**: Answers questions based on relevant document chunks
+- **Interactive Mode**: Real-time question answering interface
+- **Chunk Processing**: Splits documents into 200-character chunks with 30-character overlap
+
+### Common Features
+
 - **Simple API**: Clean functional interface with pattern selection
+- **Multiple Agents**: Choose between Timeline and QnA agents
+- **Verbose Logging**: Track processing steps with detailed prints
 
 ## Installation
 
 1. Clone the repository
 2. Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 3. Set up your OpenAI API key in a `.env` file:
+
 ```
 OPENAI_API_KEY=your_api_key_here
 ```
@@ -28,35 +45,70 @@ OPENAI_API_KEY=your_api_key_here
 ## Usage
 
 ### Command Line
+
 ```bash
-# Use map-reduce pattern (default)
+# Interactive agent selector (Timeline, QnA, or Both)
 python main.py
 
-# Use refine pattern
-python main.py --refine
+# Run QnA agent with interactive mode
+python qna_main.py
 ```
 
-### Programmatic Usage
-```python
-from src.agent import process_text
+### Agent Options
 
-# Map-reduce pattern (default)
-timeline = process_text("Your insurance text here")
+When running `python main.py`, you'll see:
 
-# Refine pattern
-timeline = process_text("Your insurance text here", use_refine=True)
+```
+🚀 Insurance AI Agents
+==================================================
+1. Timeline Agent - Creates chronological timelines
+2. QnA Agent - Answers questions using RAG
+3. Both agents
+==================================================
+Select an agent (1/2/3):
+```
+
+### QnA Agent Features
+
+The QnA agent includes:
+
+- **Automatic Vector Store Creation**: Builds knowledge base from events.txt
+- **Semantic Search**: Finds 3 most relevant chunks for each question
+- **Sample Questions**: Pre-loaded test questions for demonstration
+- **Interactive Mode**: Ask custom questions in real-time
+
+### Example QnA Session
+
+```
+❓ Your question: When did John Smith purchase his auto insurance?
+💡 Answer: John Smith purchased auto insurance on January 15, 2023, with a premium of $1,200 annually.
+
+❓ Your question: What was the settlement amount for the claim?
+💡 Answer: The settlement check was $2,350 to cover the vehicle repairs.
 ```
 
 ## Architecture
 
-### Processing Patterns:
+### Timeline Agent Processing Patterns:
+
 - **Map-Reduce**: Splits text into chunks, extracts events from each chunk (map), then combines all events into final timeline (reduce)
 - **Refine**: Processes first chunk to create initial timeline, then iteratively refines with each subsequent chunk
 
+### QnA Agent RAG Pipeline:
+
+1. **Document Loading**: Reads events.txt content
+2. **Text Splitting**: Creates 200-character chunks with 30-character overlap
+3. **Embedding**: Uses OpenAI embeddings to create vector representations
+4. **Vector Storage**: Stores embeddings in Chroma database
+5. **Query Processing**: Embeds user question and retrieves 3 most relevant chunks
+6. **Answer Generation**: Sends context and question to LLM for answer generation
+
 ### Agent Framework:
-- Uses LangChain's ReAct agent pattern
+
+- Uses LangChain's ReAct agent pattern for both agents
 - Powered by GPT-4o-mini for optimal performance
-- Tools are dynamically created based on selected pattern
+- Tools are dynamically created based on selected agent type
+- Comprehensive logging for debugging and monitoring
 
 ## Example Output
 
@@ -76,19 +128,34 @@ timeline = process_text("Your insurance text here", use_refine=True)
 
 ```
 summerize-agent/
-├── main.py                 # Entry point with pattern selection
+├── main.py                 # Entry point with agent selection
+├── qna_main.py            # QnA agent with interactive mode
 ├── events.txt             # Sample insurance text
-├── requirements.txt       # Dependencies
+├── requirements.txt       # Dependencies (includes RAG libraries)
+├── chroma_db/             # Vector database (auto-created)
 └── src/
-    ├── agent.py          # Agent with pattern selection
-    ├── timeline_tool.py  # Map-reduce and refine implementations
-    └── prompts.py        # Specialized prompts for each pattern
+    ├── timeline_tool.py   # Map-reduce and refine implementations
+    ├── qna_tool.py        # RAG pipeline implementation
+    └── prompts.py         # Specialized prompts for all agents
 ```
 
 ## Key Features
 
-- **Pattern Selection**: Choose between map-reduce and refine based on your needs
+- **Multi-Agent System**: Choose between Timeline and QnA agents based on your needs
+- **RAG Implementation**: Complete RAG pipeline with vector storage and retrieval
+- **Interactive Experience**: Real-time question answering with user-friendly interface
 - **Simple & Clean**: Minimal code using LangChain's proven patterns
-- **No Conditionals**: Straightforward execution flow
-- **No Error Handling**: Clean and direct processing
-- **Efficient**: Optimized chunking for long documents
+- **Functional Approach**: Clean functions without complex class hierarchies
+- **Comprehensive Logging**: Detailed prints to track RAG pipeline execution
+- **Persistent Storage**: Vector database persists between sessions for efficiency
+- **Efficient**: Optimized chunking for both timeline and QnA processing
+
+## Dependencies
+
+The project uses modern LangChain components:
+
+- `langchain-openai`: OpenAI models and embeddings
+- `langchain-chroma`: Vector database integration
+- `langchain-text-splitters`: Advanced text chunking
+- `chromadb`: High-performance vector database
+- `sentence-transformers`: Additional embedding support
