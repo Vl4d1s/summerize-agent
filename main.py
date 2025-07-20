@@ -37,13 +37,13 @@ def run_classifier_agent():
                 print("🕐 Routing to Timeline Agent...")
                 tools = get_timeline_tools(use_refine=False)
                 agent = create_react_agent(llm=llm, tools=tools, prompt=create_summary_timeline_agent_prompt())
-                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False, handle_parsing_errors=True)
+                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
                 result = agent_executor.invoke({"input": user_question})
             elif classification == "qna":
                 print("🤖 Routing to QnA Agent...")
                 tools = get_qna_tools()
                 agent = create_react_agent(llm=llm, tools=tools, prompt=create_qna_agent_prompt())
-                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False, handle_parsing_errors=True)
+                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
                 result = agent_executor.invoke({"input": user_question})
             else:
                 print(f"❌ Unknown classification: {classification}")
