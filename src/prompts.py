@@ -22,7 +22,7 @@ Output:
 def create_agent_prompt() -> PromptTemplate:
     """Create the agent prompt template for ReAct agent"""
     return PromptTemplate.from_template("""
-You are an expert insurance analyst that helps users create chronological timelines from insurance-related text.
+You are an expert insurance analyst that helps users create chronological timelines from insurance-related text and answer questions using RAG.
 
 You have access to the following tools:
 {tools}
@@ -37,6 +37,58 @@ Observation: the result of the action
 ... (this Thought/Action/Action Input/Observation can repeat N times)
 Thought: I now know the final answer
 Final Answer: the final answer to the original input question
+
+Question: {input}
+{agent_scratchpad}
+""")
+
+def create_summary_timeline_agent_prompt() -> PromptTemplate:
+    """Create the agent prompt template for summary timeline agent"""
+    return PromptTemplate.from_template("""
+You are an insurance timeline agent. Your job is simple: always use the timeline tool to process any input and return the tool's result directly to the user.
+
+You have access to the following tool:
+{tools}
+
+IMPORTANT: You must ALWAYS use the tool for every question. Do not try to answer questions yourself. Simply:
+1. Call the tool with the user's input
+2. Return the tool's result as your final answer
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: I need to use the timeline tool to process this input
+Action: the action to take, should be [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+Thought: I now have the result from the tool
+Final Answer: the result from the tool
+
+Question: {input}
+{agent_scratchpad}
+""")
+
+def create_qna_agent_prompt() -> PromptTemplate:
+    """Create the agent prompt template for QnA agent"""
+    return PromptTemplate.from_template("""
+You are an insurance QnA agent. Your job is simple: always use the RAG tool to answer any question and return the tool's result directly to the user.
+
+You have access to the following tool:
+{tools}
+
+IMPORTANT: You must ALWAYS use the tool for every question. Do not try to answer questions yourself. Simply:
+1. Call the tool with the user's question
+2. Return the tool's result as your final answer
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: I need to use the RAG tool to answer this question
+Action: the action to take, should be [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+Thought: I now have the result from the tool
+Final Answer: the result from the tool
 
 Question: {input}
 {agent_scratchpad}
@@ -143,3 +195,6 @@ Question: {question}
 
 Answer:"""
     ) 
+
+
+
