@@ -10,6 +10,8 @@ from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 from pydantic import BaseModel, Field
 from src.prompts import create_qna_prompt
+from src.faithfulness_evaluation import print_faithfulness_result
+from src.context_recall_evaluation import print_context_recall_result
 
 class QnAInput(BaseModel):
     """Input schema for QnA tool"""
@@ -76,7 +78,16 @@ def answer_question_with_rag(question: str) -> str:
         "question": question
     })
     
-    return answer.strip()
+    answer = answer.strip()
+    
+    # Evaluate context recall first
+    contexts_list = [doc.page_content for doc in relevant_docs]
+    print_context_recall_result(question, answer, contexts_list)
+    
+    # Evaluate faithfulness
+    print_faithfulness_result(question, answer, contexts_list)
+    
+    return answer
 
 def get_qna_tools():
     """Get QnA tool that accepts a question and returns an answer using RAG"""

@@ -1,4 +1,5 @@
 ragas
+datasets
 langchain-openai
 langchain-text-splitters
 langchain-community
