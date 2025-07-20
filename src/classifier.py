@@ -33,8 +33,6 @@ def classify_question(question: str, options: list[str]) -> str:
     Returns:
         One of the options from the provided list
     """
-    print(f"🔍 Classifying question: '{question}'")
-    print(f"📋 Available options: {options}")
     
     # Initialize LLM and parser
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)

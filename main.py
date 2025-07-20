@@ -108,60 +108,10 @@ def run_combined_agent():
 
 def run_classifier_agent():
     """Run the Classifier-based Agent that pre-classifies questions"""
-    print("🎯 Starting Classifier-based Agent")
-    print("Questions are classified first, then routed to the appropriate agent")
-    print("=" * 60)
-    
     load_dotenv()
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
     
-    # Demo questions to show classification
-    demo_questions = [
-        "Create a timeline of all insurance events",
-        "What was the claim number?",
-        "Show me a chronological summary",
-        "When was the adjuster assigned?",
-        "Generate a timeline summary",
-        "How much was the settlement check?"
-    ]
-    
-    print("\n🧪 Testing Classifier-based Agent:")
-    print("=" * 60)
-    
-    for i, question in enumerate(demo_questions, 1):
-        print(f"\n📋 Test {i}: {question}")
-        print("-" * 50)
-        
-        # Classify the question
-        classification = classify_for_agents(question)
-        
-        # Route to appropriate agent based on classification
-        if classification == "summery":
-            print("🕐 Routing to Timeline Agent...")
-            tools = get_timeline_tools(use_refine=False)
-            agent = create_react_agent(llm=llm, tools=tools, prompt=create_agent_prompt())
-            agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False, handle_parsing_errors=True)
-            result = agent_executor.invoke({"input": question})
-        elif classification == "qna":
-            print("🤖 Routing to QnA Agent...")
-            tools = get_qna_tools()
-            agent = create_react_agent(llm=llm, tools=tools, prompt=create_agent_prompt())
-            agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=False, handle_parsing_errors=True)
-            result = agent_executor.invoke({"input": question})
-        else:
-            print(f"❌ Unknown classification: {classification}")
-            continue
-            
-        answer = result["output"]
-        print(f"\n💡 Result: {answer}")
-        print("=" * 60)
-    
-    print("\n✅ Classifier testing completed!")
-    
-    # Interactive mode
-    print("\n🎯 Interactive Mode - Questions are classified before processing")
     print("Type 'quit' to exit")
-    print("-" * 60)
     
     while True:
         user_question = input("\n❓ Your question: ").strip()
