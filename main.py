@@ -150,39 +150,49 @@ def run_classifier_agent():
 
 def main():
     load_dotenv()
-    
-    print("🚀 Insurance AI Agents")
-    print("=" * 50)
-    print("1. Timeline Agent - Creates chronological timelines")
-    print("2. QnA Agent - Answers questions using RAG")
-    print("3. Combined Agent - Intelligently chooses the right tool")
-    print("4. Classifier Agent - Pre-classifies questions then routes to agents")
-    print("5. Run all agents separately")
-    print("=" * 50)
-    
-    choice = input("Select an agent (1/2/3/4/5): ").strip()
-    
-    if choice == "1":
-        run_timeline_agent()
-    elif choice == "2":
-        run_qna_agent()
-    elif choice == "3":
-        run_combined_agent()
-    elif choice == "4":
-        run_classifier_agent()
-    elif choice == "5":
-        print("\n📋 Running all agents:")
-        run_timeline_agent()
-        print("\n" + "=" * 70 + "\n")
-        run_qna_agent()
-        print("\n" + "=" * 70 + "\n")
-        run_combined_agent()
-        print("\n" + "=" * 70 + "\n")
-        run_classifier_agent()
-    else:
-        print("Invalid choice. Running Classifier Agent by default.")
-        run_classifier_agent()
+    run_classifier_agent()
 
 
 if __name__ == "__main__":
     main() 
+
+
+
+
+
+
+
+
+
+
+    # print("🚀 Insurance AI Agents")
+    # print("=" * 50)
+    # print("1. Timeline Agent - Creates chronological timelines")
+    # print("2. QnA Agent - Answers questions using RAG")
+    # print("3. Combined Agent - Intelligently chooses the right tool")
+    # print("4. Classifier Agent - Pre-classifies questions then routes to agents")
+    # print("5. Run all agents separately")
+    # print("=" * 50)
+    
+    # choice = input("Select an agent (1/2/3/4/5): ").strip()
+    
+    # if choice == "1":
+    #     run_timeline_agent()
+    # elif choice == "2":
+    #     run_qna_agent()
+    # elif choice == "3":
+    #     run_combined_agent()
+    # elif choice == "4":
+    #     run_classifier_agent()
+    # elif choice == "5":
+    #     print("\n📋 Running all agents:")
+    #     run_timeline_agent()
+    #     print("\n" + "=" * 70 + "\n")
+    #     run_qna_agent()
+    #     print("\n" + "=" * 70 + "\n")
+    #     run_combined_agent()
+    #     print("\n" + "=" * 70 + "\n")
+    #     run_classifier_agent()
+    # else:
+    #     print("Invalid choice. Running Classifier Agent by default.")
+    #     run_classifier_agent()
