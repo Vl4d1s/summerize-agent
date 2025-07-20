@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field
 from src.prompts import create_qna_prompt
 from src.faithfulness_evaluation import print_faithfulness_result
 from src.context_recall_evaluation import print_context_recall_result
+from src.context_precision_evaluation import print_context_precision_result
 
 class QnAInput(BaseModel):
     """Input schema for QnA tool"""
@@ -86,6 +87,9 @@ def answer_question_with_rag(question: str) -> str:
     
     # Evaluate faithfulness
     print_faithfulness_result(question, answer, contexts_list)
+    
+    # Evaluate context precision
+    print_context_precision_result(question, answer, contexts_list)
     
     return answer
 
