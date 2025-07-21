@@ -81,15 +81,6 @@ def answer_question_with_rag(question: str) -> str:
     
     answer = answer.strip()
     
-    # Evaluate context recall first
-    contexts_list = [doc.page_content for doc in relevant_docs]
-    print_context_recall_result(question, answer, contexts_list)
-    
-    # Evaluate faithfulness
-    print_faithfulness_result(question, answer, contexts_list)
-    
-    # Evaluate context precision
-    print_context_precision_result(question, answer, contexts_list)
     
     return answer
 
