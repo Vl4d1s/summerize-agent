@@ -7,6 +7,8 @@ from src.tools.timeline_tool import get_timeline_tool
 from src.tools.qna_tool import get_qna_tool
 from src.prompts import create_summary_timeline_agent_prompt, create_qna_agent_prompt
 from src.classifier import classify_for_agents
+from src.agents.timeline_agent import get_timeline_agent
+from src.agents.qna_agent import get_qna_agent
 
 
 
@@ -26,27 +28,21 @@ def run_classifier_agent():
             print("👋 Goodbye!")
             break
         
-        if user_question:
-            print("\n" + "-" * 50)
-            
+        if user_question:            
             # Classify the question
             classification = classify_for_agents(user_question, ["summery", "qna"], "qna")
             
             # Route to appropriate agent
             if classification == "summery":
-                print("🕐 Routing to Timeline Agent...")
-                tools = get_timeline_tool(use_refine=False)
-                agent = create_react_agent(llm=llm, tools=tools, prompt=create_summary_timeline_agent_prompt())
-                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
-                result = agent_executor.invoke({"input": user_question})
+                print("Routing to Timeline Agent...")
+                timeline_agent = get_timeline_agent(llm=llm)
+                result = timeline_agent.invoke({"input": user_question})
             elif classification == "qna":
-                print("🤖 Routing to QnA Agent...")
-                tools = get_qna_tool()
-                agent = create_react_agent(llm=llm, tools=tools, prompt=create_qna_agent_prompt())
-                agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)
-                result = agent_executor.invoke({"input": user_question})
+                print("Routing to QnA Agent...")
+                qna_agent = get_qna_agent(llm=llm)
+                result = qna_agent.invoke({"input": user_question})
             else:
-                print(f"❌ Unknown classification: {classification}")
+                print(f"\u274C Unknown classification: {classification}")
                 continue
                 
             answer = result["output"]
