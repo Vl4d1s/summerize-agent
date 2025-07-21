@@ -201,7 +201,6 @@ models/
 *.safetensors
 
 # Data files
-data/
 documents/
 uploads/
 
