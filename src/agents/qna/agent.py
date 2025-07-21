@@ -1,7 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_react_agent, AgentExecutor
 from src.tools.qna_tool import get_qna_tool
-from src.prompts import create_qna_agent_prompt
+from src.agents.qna.prompt import create_qna_agent_prompt
 
 def get_qna_agent(llm=None):
     """Create and return the QnA AgentExecutor. Optionally accept an LLM instance."""

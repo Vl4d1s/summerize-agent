@@ -1,7 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_react_agent, AgentExecutor
 from src.tools.timeline_tool import get_timeline_tool
-from src.prompts import create_summary_timeline_agent_prompt
+from src.agents.timeline_summery.prompt import create_summary_timeline_agent_prompt
 
 def get_timeline_agent(llm=None):
     """Create and return the Timeline AgentExecutor. Optionally accept an LLM instance."""
