@@ -45,7 +45,7 @@ def create_vector_store():
     
     return vector_store
 
-def answer_question_with_rag(question: str) -> str:
+def answer_question_with_rag(question: str , with_evaluation: bool = False) -> str:
     """Answer question using RAG pipeline"""
     
     # Create or load vector store
@@ -81,6 +81,11 @@ def answer_question_with_rag(question: str) -> str:
     
     answer = answer.strip()
     
+    if with_evaluation:
+        contexts_list = [doc.page_content for doc in relevant_docs]
+        print_context_recall_result(question, answer, contexts_list)
+        print_faithfulness_result(question, answer, contexts_list)
+        print_context_precision_result(question, answer, contexts_list)
     
     return answer
 
