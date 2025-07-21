@@ -93,7 +93,7 @@ def answer_question_with_rag(question: str) -> str:
     
     return answer
 
-def get_qna_tools():
+def get_qna_tool():
     """Get QnA tool that accepts a question and returns an answer using RAG"""
     qna_tool = Tool(
         name="qna_rag",

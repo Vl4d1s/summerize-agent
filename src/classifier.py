@@ -51,7 +51,11 @@ Think carefully about whether the question seeks a broad overview/timeline (summ
 Classification (return ONLY the option):""")
 
 
-def classify_question(question: str, options: list[str]) -> str:
+
+    
+
+
+def classify_for_agents(question: str , options: list[str],default_option: str) -> str:
     """
     Classify a question into one of the provided options using LLM
     
@@ -63,18 +67,16 @@ def classify_question(question: str, options: list[str]) -> str:
         One of the options from the provided list
     """
     
-    # Initialize LLM and parser
+    # Initialize LLM 
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
-    output_parser = StrOutputParser()
     
     # Create classification chain
-    classifier_chain = create_classifier_prompt() | llm | output_parser
+    classifier_chain = create_classifier_prompt() | llm | StrOutputParser()
     
     # Get classification
-    options_str = ", ".join(options)
     result = classifier_chain.invoke({
         "question": question,
-        "options": options_str
+        "options": ", ".join(options)
     })
     
     # Clean the result and ensure it's in the options
@@ -89,18 +91,5 @@ def classify_question(question: str, options: list[str]) -> str:
         return original_option
     else:
         # Fallback to first option if invalid response
-        print(f"⚠️ Invalid classification '{classification}', defaulting to '{options[0]}'")
-        return options[0]
-
-
-def classify_for_agents(question: str) -> str:
-    """
-    Classify question for agent selection (summery or qna)
-    
-    Args:
-        question: The question to classify
-        
-    Returns:
-        Either "summery" or "qna"
-    """
-    return classify_question(question, ["summery", "qna"]) 
+        print(f"⚠️ Invalid classification '{classification}', defaulting to '{default_option}'")
+        return default_option

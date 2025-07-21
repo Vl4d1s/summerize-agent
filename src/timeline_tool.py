@@ -43,7 +43,7 @@ def create_refine_chain() -> str:
         })
     return current_result.strip()
 
-def get_timeline_tools(use_refine: bool = False):
+def get_timeline_tool(use_refine: bool = False):
     """Get timeline tool based on flag. Tool takes no input and reads events.txt itself."""
     chain_function = create_refine_chain if use_refine else create_mapreduce_chain
     tool_name = "refine_timeline" if use_refine else "mapreduce_timeline"
