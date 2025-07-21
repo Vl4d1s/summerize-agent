@@ -10,9 +10,9 @@ from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 from pydantic import BaseModel, Field
 from src.prompts import create_qna_prompt
-from src.faithfulness_evaluation import print_faithfulness_result
-from src.context_recall_evaluation import print_context_recall_result
-from src.context_precision_evaluation import print_context_precision_result
+from src.evaluation.faithfulness_evaluation import print_faithfulness_result
+from src.evaluation.context_recall_evaluation import print_context_recall_result
+from src.evaluation.context_precision_evaluation import print_context_precision_result
 
 class QnAInput(BaseModel):
     """Input schema for QnA tool"""
@@ -22,7 +22,7 @@ def create_vector_store():
     """Create and populate vector store with events.txt content"""
     
     # Load text from events.txt
-    with open("events.txt", "r", encoding="utf-8") as f:
+    with open("src/data/events.txt", "r", encoding="utf-8") as f:
         text = f.read().strip()
     
     

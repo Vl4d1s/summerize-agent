@@ -9,7 +9,7 @@ from src.prompts import create_map_prompt, create_reduce_prompt, create_initial_
 
 def create_mapreduce_chain() -> str:
     """Create timeline using map-reduce pattern, reading events.txt directly."""
-    with open("events.txt", "r", encoding="utf-8") as f:
+    with open("src/data/events.txt", "r", encoding="utf-8") as f:
         text = f.read().strip()
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
     output_parser = StrOutputParser()
@@ -27,7 +27,7 @@ def create_mapreduce_chain() -> str:
 
 def create_refine_chain() -> str:
     """Create timeline using refine pattern, reading events.txt directly."""
-    with open("events.txt", "r", encoding="utf-8") as f:
+    with open("src/data/events.txt", "r", encoding="utf-8") as f:
         text = f.read().strip()
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
     output_parser = StrOutputParser()
@@ -47,7 +47,7 @@ def get_timeline_tool(use_refine: bool = False):
     """Get timeline tool based on flag. Tool takes no input and reads events.txt itself."""
     chain_function = create_refine_chain if use_refine else create_mapreduce_chain
     tool_name = "refine_timeline" if use_refine else "mapreduce_timeline"
-    tool_description = f"Create chronological timeline using {'refine' if use_refine else 'map-reduce'} pattern from events.txt"
+    tool_description = f"Create chronological timeline using {'refine' if use_refine else 'map-reduce'} pattern from src/data/events.txt"
     timeline_tool = Tool(
         name=tool_name,
         description=tool_description,

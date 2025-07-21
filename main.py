@@ -3,8 +3,8 @@
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_react_agent, AgentExecutor
-from src.timeline_tool import get_timeline_tool
-from src.qna_tool import get_qna_tool
+from src.tools.timeline_tool import get_timeline_tool
+from src.tools.qna_tool import get_qna_tool
 from src.prompts import create_summary_timeline_agent_prompt, create_qna_agent_prompt
 from src.classifier import classify_for_agents
 

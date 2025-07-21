@@ -5,3 +5,5 @@ langchain-text-splitters
 langchain-community
 chromadb
 sentence-transformers
+python-dotenv
+langchain
