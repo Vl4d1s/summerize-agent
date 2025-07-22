@@ -1,4 +1,4 @@
-from src.timeline_tool import create_refine_chain
+from src.tools.timeline_tool import create_refine_chain
 from ragas.evaluation import evaluate
 from ragas.metrics import answer_correctness
 from datasets import Dataset
