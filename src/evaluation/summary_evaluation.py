@@ -5,7 +5,7 @@ if __name__ == "__main__":
     # 1. Hardcoded input and ground truth
     agent_query = "create a chronological timeline from the insurance events"
 
-    with open("ground_truth.txt", "r", encoding="utf-8") as f:
+    with open("src/data/ground_truth.txt", "r", encoding="utf-8") as f:
         ground_truth_summary = f.read()
 
     # 2. Generate summary with agent
