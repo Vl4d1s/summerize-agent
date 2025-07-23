@@ -25,7 +25,23 @@ def create_vector_store():
     )
     return vector_store
 
-def answer_question_with_rag(question: str , with_evaluation: bool = False) -> str:
+
+def getAnswerForRetrieval(question: str) -> str:
+    """Answer the question using the full content of ground_truth.txt as context."""
+    with open("src/data/ground_truth.txt", "r", encoding="utf-8") as f:
+        context = f.read().strip()
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
+    output_parser = StrOutputParser()
+    qna_chain = create_qna_prompt() | llm | output_parser
+    answer = qna_chain.invoke({
+        "context": context,
+        "question": question
+    })
+    answer = answer.strip()
+    return answer
+
+
+def answer_question_with_rag(question: str , with_evaluation: bool = False,answer_retrieval: bool = False) -> str:
     """Answer question using RAG pipeline"""
     embeddings = OpenAIEmbeddings()
     if os.path.exists("./chroma_db"):
@@ -36,7 +52,10 @@ def answer_question_with_rag(question: str , with_evaluation: bool = False) -> s
     else:
         vector_store = create_vector_store()
     retriever = vector_store.as_retriever(search_kwargs={"k": 3})
-    relevant_docs = retriever.invoke(question)
+
+    retrival_context = getAnswerForRetrieval(question) if answer_retrieval else question
+    relevant_docs = retriever.invoke(retrival_context)
+
     context = "\n\n".join([doc.page_content for doc in relevant_docs])
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
     output_parser = StrOutputParser()

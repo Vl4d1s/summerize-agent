@@ -12,5 +12,6 @@ if __name__ == "__main__":
 
     for i, question in enumerate(questions, 1):
         print(f"\n--- Question {i}: {question}")
-        answer = answer_question_with_rag(question, with_evaluation=True)
+        # answer = answer_question_with_rag(question, with_evaluation=True)
+        answer = answer_question_with_rag(question, with_evaluation=True, answer_retrieval=True)
         print(f"Answer: {answer}")
