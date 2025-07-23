@@ -1,10 +1,79 @@
-2023-01-15 - POLICY_START - Auto insurance policy purchased with $1,200 annual premium, comprehensive and collision coverage, $500 deductible
-2023-02-01 - PAYMENT_MADE - First monthly premium payment of $100 made
-2023-03-10 - INCIDENT_OCCURRED - Minor car accident occurred in parking lot
-2023-03-11 - INCIDENT_REPORTED - Accident reported to insurance company
-2023-03-12 - CLAIM_FILED - Claim officially filed with claim number CL-2023-0045
-2023-03-15 - ADJUSTER_ASSIGNED - Adjuster visited scene, took photos and interviewed witnesses
-2023-03-16 - INVESTIGATION_STARTED - Investigation began to determine fault and assess damages
-2023-04-02 - INVESTIGATION_COMPLETED - Investigation concluded, John determined not at fault
-2023-04-05 - CLAIM_APPROVED - Claim approved and settlement check for $2,350 issued for vehicle repairs
-2024-01-15 - POLICY_RENEWAL - Policy automatically renewed with premium increase to $1,250 annually due to previous claim
+2023-02-20 - INITIAL_CONTACT - Maria Rodriguez contacted agency seeking comprehensive auto insurance coverage for 2021 Toyota Camry
+
+2023-03-01 - POLICY_START - Policy 456789012 issued with $1,450 annual premium, comprehensive coverage
+
+2023-03-03 - DOCUMENTS_MAILED - Welcome package and insurance cards mailed to 456 Oak Street, Springfield
+
+2023-03-15 - PAYMENT_MADE - First monthly premium payment of $120.83 processed via automatic bank draft
+
+2023-04-15 - PAYMENT_MADE - Monthly premium payment of $120.83 processed
+
+2023-05-15 - PAYMENT_MADE - Monthly premium payment of $120.83 processed
+
+2023-06-15 - PAYMENT_MADE - Monthly premium payment of $120.83 processed
+
+2023-07-08 - ADDRESS_CHANGE_REQUEST - Maria contacted customer service to update address due to relocation
+
+2023-07-10 - ADDRESS_CHANGE_PROCESSED - New address 789 Maple Drive processed, updated cards mailed
+
+2023-08-15 - PREMIUM_ADJUSTMENT - Monthly premium reduced to $118.50 due to address change risk factors
+
+2023-08-22 - INCIDENT_OCCURRED - Shopping cart damage to driver's side door during thunderstorm at workplace
+
+2023-08-22 - CLAIM_FILED - Claim CL-2023-0892 filed for cart damage, assigned to Jennifer Walsh
+
+2023-08-23 - ADJUSTER_ASSIGNED - Claims Adjuster Michael Chen assigned to cart damage claim
+
+2023-08-24 - VIRTUAL_INSPECTION - Virtual inspection conducted via video call, damage estimated at $485
+
+2023-08-25 - CLAIM_APPROVED - Cart damage claim approved for $235 payment after $250 deductible
+
+2023-08-30 - REPAIRS_COMPLETED - Vehicle repairs completed at Premier Auto Body Shop
+
+2023-09-01 - PAYMENT_MADE - Company issued $235 payment to Premier Auto Body Shop
+
+2023-10-15 - MAJOR_INCIDENT_OCCURRED - Multi-vehicle accident at Highway 45 and Cedar Street during rush hour
+
+2023-10-15 - CLAIM_FILED - Claim CL-2023-1156 filed for multi-vehicle accident, escalated to Special Investigation Unit
+
+2023-10-15 - MEDICAL_TREATMENT - Maria transported to Springfield General Hospital for neck injury evaluation
+
+2023-10-16 - ADJUSTER_ASSIGNED - Senior Claims Adjuster Thomas Rodriguez assigned to multi-vehicle accident
+
+2023-10-17 - SCENE_INVESTIGATION - Adjuster visited accident scene for detailed investigation and documentation
+
+2023-10-18 - DAMAGE_ASSESSMENT - Initial vehicle damage estimate of $8,750 completed at Auto Assessment Center
+
+2023-10-20 - MEDICAL_TREATMENT_START - Physical therapy treatments began at Springfield Physical Therapy Center
+
+2023-10-20 - FINAL_DAMAGE_ASSESSMENT - Comprehensive inspection revealed $9,240 in repair costs
+
+2023-10-23 - RENTAL_CAR_ACTIVATED - Rental car coverage activated through Enterprise Rent-A-Car
+
+2023-10-25 - REPAIRS_START - Vehicle repairs began at Downtown Auto Collision
+
+2023-10-31 - MEDICAL_BILLS_PROCESSED - $2,340 in medical bills processed under PIP coverage
+
+2023-11-03 - FAULT_DETERMINATION - Investigation concluded with 10% fault assigned to Maria
+
+2023-11-10 - REPAIRS_COMPLETED - Vehicle repairs completed at total cost of $9,180
+
+2023-11-12 - PAYMENT_MADE - Company issued $8,680 payment to Downtown Auto Collision after deductible
+
+2023-11-15 - SUBROGATION_INITIATED - Subrogation proceedings began against other drivers' insurance
+
+2023-12-01 - COVERAGE_MODIFICATION - Liability limits increased and gap coverage added
+
+2023-12-15 - PREMIUM_ADJUSTMENT - Monthly premium increased to $142.30 due to coverage modifications
+
+2023-12-15 - MEDICAL_TREATMENT_END - Physical therapy treatments completed, total medical costs $4,120
+
+2024-01-08 - DEFENSIVE_DRIVING_COMPLETED - Maria completed approved defensive driving course
+
+2024-01-15 - POLICY_REVIEW_START - Annual policy renewal review process initiated
+
+2024-01-20 - SUBROGATION_RECOVERY - Subrogation recovered $7,344, Maria received $400 deductible refund
+
+2024-02-15 - PREMIUM_ADJUSTMENT - Monthly premium reduced to $135.20 due to defensive driving discount
+
+2024-03-01 - POLICY_RENEWAL - Policy renewed with $1,680 annual premium and enhanced coverage options
