@@ -22,6 +22,11 @@ def answer_question_with_graph(question: str, with_evaluation: bool = False) -> 
         context_list = [edge.fact for edge in search_results.edges]
     else:
         context_list = []
+    print("Retrieved Context:")    
+    for doc in context_list:
+        print("--------------------------------")
+        print(doc.strip())
+    print("--------------------------------")    
     context = "\n\n".join(context_list)
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
     output_parser = StrOutputParser()

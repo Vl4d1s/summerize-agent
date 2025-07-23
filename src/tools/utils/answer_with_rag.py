@@ -55,7 +55,11 @@ def answer_question_with_rag(question: str , with_evaluation: bool = False,answe
 
     retrival_context = getAnswerForRetrieval(question) if answer_retrieval else question
     relevant_docs = retriever.invoke(retrival_context)
-
+    print("Retrieved Context:")    
+    for doc in relevant_docs:
+        print("--------------------------------")
+        print(doc.page_content.strip())
+    print("--------------------------------")
     context = "\n\n".join([doc.page_content for doc in relevant_docs])
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
     output_parser = StrOutputParser()
