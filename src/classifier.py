@@ -14,14 +14,14 @@ You are an expert question classifier working for a knowledge management system.
 Available Options: {options}
 
 CLASSIFICATION RULES:
-- "summery": Choose this for questions requesting timelines, chronological sequences, overviews, summaries of events, or broad narratives of "what happened"
-- "qna": Choose this for questions seeking specific facts, details, precise information, or direct answers to who/what/when/where/how/why questions
+- "summery": Choose this ONLY for questions that explicitly request a summary, timeline, chronological sequence, overview, or broad narrative (e.g., questions containing words like 'summary', 'summarize', 'overview', 'timeline', 'chronological', 'sequence', 'narrative', 'describe the events').
+- "qna": Choose this for questions seeking specific facts, details, precise information, or direct answers to who/what/when/where/how/why questions, including questions like "What happened on [date/event]?" unless a summary or overview is explicitly requested.
 
 EXAMPLES:
 
 Question: "What happened during the American Civil War?"
-Classification: summery
-Reasoning: Asks for an overview/summary of events
+Classification: qna
+Reasoning: Seeks specific events or facts, not an explicit summary or overview
 
 Question: "When did the American Civil War start?"
 Classification: qna
@@ -43,10 +43,18 @@ Question: "What does AI stand for?"
 Classification: qna
 Reasoning: Seeks specific definition/fact
 
+Question: "What happened on March?"
+Classification: qna
+Reasoning: Seeks specific events or facts for March, not an explicit summary
+
+Question: "Give me a summary of March month"
+Classification: summery
+Reasoning: Explicitly requests a summary
+
 NOW CLASSIFY THIS QUESTION:
 Question: {question}
 
-Think carefully about whether the question seeks a broad overview/timeline (summery) or specific factual information (qna).
+Think carefully about whether the question seeks a broad overview/timeline (summery) or specific factual information (qna). Only classify as 'summery' if the question explicitly asks for a summary, overview, or timeline.
 
 Classification (return ONLY the option):""")
 
