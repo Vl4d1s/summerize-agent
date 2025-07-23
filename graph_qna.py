@@ -29,7 +29,7 @@ def ingest_document(text: str):
             type="text",
             data=chunk
         )
-    print("Document ingested successfully.")
+    # print("Document ingested successfully.")
 
 # Query information from the graph
 def query(query_text: str):
@@ -39,7 +39,7 @@ def query(query_text: str):
         scope="edges",
         limit=3
     )
-    print(search_results)
+    # print(search_results)
     if search_results.edges:
         return [edge.fact for edge in search_results.edges]
     else:
@@ -52,10 +52,11 @@ if __name__ == "__main__":
         text = f.read()
     ingest_document(text)
 
-    results = query("What happened on April 2?")
-    print("ChunksResults:")
-    for chunk in results:
-        print(chunk)
+    results = query("Which car does Maria has?")
+    print("Question: Which car does Maria has?")
+    # print("ChunksResults:")
+    # for chunk in results:
+    #     print(chunk)
 
     # Generate answer using LLM
     llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.0)
@@ -65,7 +66,7 @@ if __name__ == "__main__":
     
     answer = qna_chain.invoke({
         "context": results,
-        "question": "What happened on April 2?"
+        "question": "Which car does Maria has?"
     })
     
     answer = answer.strip()
