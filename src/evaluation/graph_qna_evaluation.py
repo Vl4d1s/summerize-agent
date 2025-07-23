@@ -1,4 +1,4 @@
-from tools.qna_rag_tool import answer_question_with_rag
+from tools.utils.answer_with_rag import answer_question_with_rag
 
 if __name__ == "__main__":
     questions = [

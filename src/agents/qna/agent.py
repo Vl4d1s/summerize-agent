@@ -1,6 +1,6 @@
 from langchain_openai import ChatOpenAI
 from langchain.agents import create_react_agent, AgentExecutor
-from tools.qna_rag_tool import get_qna_rag_tool
+from src.tools.qna_rag_tool import get_qna_rag_tool
 from src.agents.qna.prompt import create_qna_agent_prompt
 
 def get_qna_agent(llm=None):
