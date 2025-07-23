@@ -3,13 +3,13 @@ from tools.qna_rag_tool import answer_question_with_rag
 if __name__ == "__main__":
     questions = [
         # Easy: direct fact
-        "When did Maria Rodriguez's auto insurance policy begin?",
+        "When did John Smith purchase auto insurance?",
         # Medium: requires combining info
-        "What were the main reasons for the increase in Maria's insurance premium during the policy renewal?",
+        "What was the outcome of John's car accident claim?",
         # Hard: requires synthesis or is not directly stated
-        "How did subrogation efforts impact the total claims cost for Maria's policy?",
+        "Why did John's insurance premium increase in 2024?",
         # Not answerable from context
-        "What is Maria Rodriguez's driver's license number?",
+        "What is John's driver's license number?",
     ]
 
     for i, question in enumerate(questions, 1):
